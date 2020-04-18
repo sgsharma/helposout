@@ -1,4 +1,4 @@
-FROM node:13.12.0
+FROM node:stretch-slim
 
 RUN mkdir -p /app/frontend
 WORKDIR /app/frontend

@@ -20,10 +20,10 @@ RUN set -ex \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /app/api/
-WORKDIR /app/api/
 ADD ./requirements.txt /app/requirements.txt
 COPY ./api/ /app/api/
 COPY ./manage.py /app/manage.py
+WORKDIR /app/
 
 # Install build deps, then run `pip install`, then remove unneeded build deps all in a single step.
 # Correct the path to your production requirements file, if needed.

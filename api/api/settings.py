@@ -14,10 +14,16 @@ import os
 import environ
 
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
 # Project root
-ROOT = environ.Path(__file__) - 3
-env = environ.Env()
-environ.Env.read_env()
+root = environ.Path(__file__) - 2
+ENV_PATH = os.path.join(root, '.env')
+env.read_env(ENV_PATH)
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +38,7 @@ SECRET_KEY = 'h9s33#kz!cjf#h=bepvwdd10f$7w9)=slne4nndd!isr&i=2d-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
 
 # Application definition
@@ -87,7 +93,7 @@ DATABASES = {
         'NAME': 'api-db',
         'USER': 'admin',
         'PASSWORD': env.str('POSTGRES_PASSWORD'),
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
