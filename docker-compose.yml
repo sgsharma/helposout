@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./api/.env
+  django:
+    build: ./api
+    image: "django:${VERSION}"
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./api/.env
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend
+    command: ["npm", "start"]
+    image: "frontend:${VERSION}"
+    volumes:
+      - node-modules:/app/frontend/node_modules
+    ports:
+      - "3000:3000"
+
+volumes:
+  node-modules:

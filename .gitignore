@@ -61,13 +61,6 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
 # Sphinx documentation
 docs/_build/
 
@@ -98,9 +91,6 @@ __pypackages__/
 celerybeat-schedule
 celerybeat.pid
 
-# SageMath parsed files
-*.sage.py
-
 # Environments
 .env
 .venv
@@ -109,6 +99,17 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+pip-selfcheck.json
 
 # Spyder project settings
 .spyderproject
@@ -134,3 +135,23 @@ dmypy.json
 # google api credentials
 helposout-846398600893.json
 token.pickle
+
+.DS_Store
+__pycache__
+node_modules
+
+# Created by https://www.gitignore.io/api/django
+# Edit at https://www.gitignore.io/?templates=django
+### Django ###
+*.pyc
+media
+
+# If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
+# in your Git repository. Update and uncomment the following line accordingly.
+# <django-project-name>/staticfiles/
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+# End of https://www.gitignore.io/api/django
