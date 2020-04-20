@@ -14,23 +14,21 @@ import os
 import environ
 
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
 
-# Project root
-root = environ.Path(__file__) - 2
-ENV_PATH = os.path.join(root, '.env')
+ENV_PATH = os.path.join(os.path.dirname(BASE_DIR), '.env')
 env.read_env(ENV_PATH)
-
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
+
+SITE_ID=1
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'h9s33#kz!cjf#h=bepvwdd10f$7w9)=slne4nndd!isr&i=2d-'
@@ -50,6 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'api'
 ]
 
@@ -90,10 +93,10 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'api-db',
+        'NAME': 'api_db',
         'USER': 'admin',
         'PASSWORD': env.str('POSTGRES_PASSWORD'),
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -117,6 +120,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'api.CustomUser'
+
+AUTHENTICATION_BACKENDS = (
+ 'django.contrib.auth.backends.ModelBackend',
+ 'allauth.account.auth_backends.AuthenticationBackend',
+ )
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -136,3 +145,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
