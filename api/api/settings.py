@@ -22,7 +22,7 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-ENV_PATH = os.path.join(os.path.dirname(BASE_DIR), '.env')
+ENV_PATH = os.path.join(BASE_DIR, '.env')
 env.read_env(ENV_PATH)
 
 # Quick-start development settings - unsuitable for production
@@ -31,7 +31,7 @@ env.read_env(ENV_PATH)
 SITE_ID=1
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'h9s33#kz!cjf#h=bepvwdd10f$7w9)=slne4nndd!isr&i=2d-'
+SECRET_KEY = env.str('SECRET_KEY' )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -92,12 +92,12 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'api_db',
-        'USER': 'admin',
-        'PASSWORD': env.str('POSTGRES_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': env.str('POSTGRES_ENGINE', 'django.db.backends.postgrePOSTGRES'),
+        'NAME': env.str('POSTGRES_DB'),
+        'USER': env.str('POSTGRES_USER', 'user'),
+        'PASSWORD': env.str('POSTGRES_PASSWORD', 'password'),
+        'HOST': env.str('POSTGRES_HOST', 'localhost'),
+        'PORT': env.str('POSTGRES_PORT', '5432'),
     }
 }
 

@@ -9,6 +9,8 @@ FROM python:3.7-slim
 #   postgresql-client -- for running database commands
 # We need to recreate the /usr/share/man/man{1..8} directories first because
 # they were clobbered by a parent image.
+RUN apt-get update && apt-get install -y netcat
+
 RUN set -ex \
     && RUN_DEPS=" \
     libpcre3 \
@@ -21,8 +23,9 @@ RUN set -ex \
 
 RUN mkdir -p /app/api/
 ADD ./requirements.txt /app/requirements.txt
-COPY ./api/ /app/api/
-COPY ./manage.py /app/manage.py
+ADD ./entrypoint.sh /app/entrypoint.sh
+# COPY ./api/ /app/api/
+# COPY ./manage.py /app/manage.py
 WORKDIR /app/
 
 # Install build deps, then run `pip install`, then remove unneeded build deps all in a single step.
@@ -46,4 +49,7 @@ EXPOSE 8000
 # Change to a non-root user
 # USER ${APP_USER}:${APP_USER}
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# run entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]
