@@ -53,7 +53,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'api'
+    'api',
+    'rest_framework',
+    # 'address', # TODO: Also add Google Maps API key
 ]
 
 MIDDLEWARE = [
