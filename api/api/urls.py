@@ -5,11 +5,11 @@ from rest_framework import routers
 
 from .views import JobViewSet, OrganizationViewSet, PartnerViewSet, ApplicantViewSet
 
-router = routers.DefaultRouter()
-router.register('jobs', JobViewSet)
-router.register('orgs', OrganizationViewSet)
-router.register('partners', PartnerViewSet)
-router.register('applicants', PartnerViewSet)
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'jobs/?', JobViewSet)
+router.register(r'orgs/?', OrganizationViewSet)
+router.register(r'partners/?', PartnerViewSet)
+router.register(r'applicants/?', ApplicantViewSet)
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),

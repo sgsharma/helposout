@@ -24,7 +24,6 @@ class PartnerSerializer(serializers.ModelSerializer):
 
 
 class ApplicantSerializer(serializers.ModelSerializer):
-    posted_by = serializers.RelatedField(source='posted_by', read_only=True)
     organization_name = serializers.RelatedField(source='org', read_only=True)
     class Meta:
         model = Applicant
