@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
 class Organization(models.Model):
     name = models.CharField('Company name', max_length=50, primary_key=True)
     org_url = models.URLField('Company URL', max_length=200)
-    # location1 = AddressField() # install this first to make it work https://github.com/furious-luke/django-address
+    # location1 = AddressField() # TODO @sgsharma install this first to make it work https://github.com/furious-luke/django-address
     # location2 = AddressField(related_name='+', blank=True, null=True)
  
 
@@ -38,20 +38,20 @@ class Applicant(models.Model):
     github_url = models.URLField(max_length=200)
     linkedin_url = models.URLField(max_length=200)
     portfolio_url = models.URLField(max_length=200)
-    skills = models.CharField(max_length=255) # with this answer https://stackoverflow.com/questions/29526511/allow-dynamic-choice-in-django-choicefield
+    skills = models.CharField(max_length=255) # TODO @sgsharma make dynamic choice field
     current_employer = models.CharField(max_length=200, null=True, blank=False)
 
 
 class Job(models.Model):
     title = models.CharField(max_length=50)
-    category = models.CharField(max_length=255) # with this answer https://stackoverflow.com/questions/29526511/allow-dynamic-choice-in-django-choicefield
+    category = models.CharField(max_length=255) # TODO @sgsharma make dynamic choice field
     remote_ok = models.BooleanField(default=False)
-    skills = models.CharField(max_length=255) # with this answer https://stackoverflow.com/questions/29526511/allow-dynamic-choice-in-django-choicefield
+    skills = models.CharField(max_length=255) # TODO @sgsharma make dynamic choice field
     description = models.TextField()
     job_type = models.CharField(max_length=255)
     paid = models.BooleanField(default=True)
     salary = models.DecimalField(decimal_places=2, max_digits=8)
-    created_at = models.DateTimeField(auto_now_add=True) # https://stackoverflow.com/questions/3429878/automatic-creation-date-for-django-model-form-objects
+    created_at = models.DateTimeField(auto_now_add=True) # TODO @sgsharma make dynamic choice field
     updated_at = models.DateTimeField(auto_now=True)
     posted_by = models.ForeignKey(Partner, on_delete=models.CASCADE)
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
