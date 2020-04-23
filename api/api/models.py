@@ -32,6 +32,9 @@ class Partner(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.user.email
+
 
 class Applicant(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
@@ -51,7 +54,7 @@ class Job(models.Model):
     job_type = models.CharField(max_length=255)
     paid = models.BooleanField(default=True)
     salary = models.DecimalField(decimal_places=2, max_digits=8)
-    created_at = models.DateTimeField(auto_now_add=True) # TODO @sgsharma make dynamic choice field
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     posted_by = models.ForeignKey(Partner, on_delete=models.CASCADE)
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
