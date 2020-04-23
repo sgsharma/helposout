@@ -22,15 +22,15 @@ class CustomUser(AbstractUser):
 
 
 class Organization(models.Model):
-    name = models.CharField(max_length=50)
-    company_url = models.URLField(max_length=200)
+    name = models.CharField('Company name', max_length=50, primary_key=True)
+    org_url = models.URLField('Company URL', max_length=200)
     # location1 = AddressField() # install this first to make it work https://github.com/furious-luke/django-address
     # location2 = AddressField(related_name='+', blank=True, null=True)
  
 
 class Partner(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
-    company = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
 
 class Applicant(models.Model):
@@ -54,3 +54,4 @@ class Job(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) # https://stackoverflow.com/questions/3429878/automatic-creation-date-for-django-model-form-objects
     updated_at = models.DateTimeField(auto_now=True)
     posted_by = models.ForeignKey(Partner, on_delete=models.CASCADE)
+    org = models.ForeignKey(Organization, on_delete=models.CASCADE)
