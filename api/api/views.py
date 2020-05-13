@@ -4,15 +4,40 @@ from rest_framework.response import Response
 
 from .models import CustomUser, Job, Organization
 from .permissions import IsOwnerOrReadOnly
-from .serializers import (JobSerializer, OrganizationSerializer
+from .serializers import (JobSerializer, JobListSerializer, OrganizationSerializer
                           )
 
 
 class JobViewSet(viewsets.ModelViewSet):
-    serializer_class = JobSerializer
-    queryset = Job.objects.values() # pylint: disable=no-member
+    serializer_class = JobListSerializer
     permission_classes = [permissions.IsAuthenticated, ]
-    filterset_fields = ['owner', 'org']
+    queryset = Job.objects.all().order_by('-updated_at')
+
+    def __init__(self, *args, **kwargs):
+        super(JobViewSet, self).__init__(*args, **kwargs)
+        self.serializer_action_classes = {
+            'list':JobListSerializer,
+            'create':JobListSerializer,
+            'retrieve':JobListSerializer,
+            'update':JobListSerializer,
+            'partial_update':JobListSerializer,
+            'destroy':JobSerializer,
+        }
+
+    def perform_create(self, serializer):
+        serializer.save(org=self.request.user.organization)
+
+    def perform_update(self, serializer):
+        serializer.save(org=self.request.user.organization)
+
+    def get_serializer_class(self, *args, **kwargs):
+        """Instantiate the list of serializers per action from class attribute (must be defined)."""
+        kwargs['partial'] = True
+        try:
+            print(self.serializer_action_classes[self.action])
+            return self.serializer_action_classes[self.action]
+        except (KeyError, AttributeError):
+            return super(JobViewSet, self).get_serializer_class()
 
     def get_permissions(self):
         """
@@ -26,18 +51,6 @@ class JobViewSet(viewsets.ModelViewSet):
             return [IsOwnerOrReadOnly(), ]
         return super(JobViewSet, self).get_permissions()
 
-    # def list(self, request):
-        # queryset = Job.objects.values() # pylint: disable=no-member
-        # return Response(queryset)
-
-    def retrieve(self, request, pk):
-        queryset = Job.objects.filter(id=pk).values().first() # pylint: disable=no-member
-        queryset['owner_name'] = CustomUser.objects.filter(id=queryset.get('owner_id')).values('first_name', 'last_name')
-        queryset['org_name'] = Organization.objects.filter(name=queryset.get('org_id')).values('name', 'org_url')
-        return Response(queryset)
-
-    def perform_create(self, serializer):
-        serializer.save(org=self.request.user.organization)
 
 class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all() # pylint: disable=no-member

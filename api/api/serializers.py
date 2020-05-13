@@ -10,34 +10,6 @@ from .models import CustomUser, Job, Organization
 UserModel = get_user_model()
 
 
-class OrganizationSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(required=True)
-    org_url = serializers.URLField(required=True)
-
-    def validate_name(self, value):
-        """
-        Check if the org name already exists 
-        """
-        orgs = Organization.objects.values('name') # pylint: disable=no-member
-        if value in orgs:
-            raise serializers.ValidationError('Organization {} already exists.'.format(value))
-        else:
-            return value
-
-    def validate_org_url(self, value):
-        """
-        Check if the url already exists 
-        """
-        orgs = Organization.objects.values('org_url') # pylint: disable=no-member
-        if value in orgs:
-            raise serializers.ValidationError('Organization {} already exists.'.format(value))
-        return value     
-
-    class Meta:
-        model = Organization
-        fields = '__all__'
-
-
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -104,6 +76,25 @@ class LoginSerializer(serializers.Serializer):
 
 
 class JobSerializer(serializers.ModelSerializer):
+    print("JobSerializer")
+    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    org = serializers.HiddenField(default=None)
+
+    def validate_job_url(self, value):
+        """
+        Check if the job url already exists 
+        """
+        jobs = Job.objects.values('job_url') # pylint: disable=no-member
+        if value in jobs:
+            raise serializers.ValidationError('Job webpage {} already exists.'.format(value))
+        return value
+
+    class Meta:
+        model = Job
+        fields = '__all__'
+
+
+class JobListSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     org = serializers.HiddenField(default=None)
     owner_name = serializers.SerializerMethodField('get_owner_name')
@@ -119,8 +110,11 @@ class JobSerializer(serializers.ModelSerializer):
         return value
 
     def get_owner_name(self, obj):
-        name = CustomUser.objects.filter(id=obj.owner_id).values('first_name', 'last_name')
-        return name
+        if obj:
+            name = CustomUser.objects.filter(id=obj.get('owner_id')).values('first_name', 'last_name')
+            return name
+        else:
+            return
 
     def get_org_name(self, obj):
         name = Organization.objects.filter(name=obj.org_id).values('name', 'org_url') # pylint: disable=no-member
@@ -128,4 +122,32 @@ class JobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
+        fields = '__all__'
+
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True)
+    org_url = serializers.URLField(required=True)
+
+    def validate_name(self, value):
+        """
+        Check if the org name already exists 
+        """
+        orgs = Organization.objects.values('name') # pylint: disable=no-member
+        if value in orgs:
+            raise serializers.ValidationError('Organization {} already exists.'.format(value))
+        else:
+            return value
+
+    def validate_org_url(self, value):
+        """
+        Check if the url already exists 
+        """
+        orgs = Organization.objects.values('org_url') # pylint: disable=no-member
+        if value in orgs:
+            raise serializers.ValidationError('Organization {} already exists.'.format(value))
+        return value     
+
+    class Meta:
+        model = Organization
         fields = '__all__'

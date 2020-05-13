@@ -9,7 +9,7 @@ services:
       - ./api-postgres:/var/lib/postgresql/data/
     env_file:
       - ./.env
-  django:
+  api:
     build: ./api
     image: 'django:${VERSION}'
     command: ['python', '/app/manage.py', 'runserver', '0.0.0.0:8000']
