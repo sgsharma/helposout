@@ -37,7 +37,7 @@
   --gray-dark: #32325d;
   --light: #ced4da;
   --lighter: #e9ecef;
-  --primary: #5e72e4;
+  --primary: #bd1c2c;
   --secondary: #f4f5f7;
   --success: #2dce89;
   --info: #11cdef;
@@ -3499,6 +3499,7 @@ input[type="button"].btn-block {
   background-color: #fff;
   background-clip: border-box;
   border: 0.0625rem solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
   border-radius: 0.25rem; }
   .card > hr {
     margin-right: 0;
@@ -11785,7 +11786,7 @@ a.text-lighter:hover, a.text-lighter:focus {
     color: #637089 !important; }
 
 .btn-neutral {
-  color: #5e72e4; }
+  color: #bd1c2c; }
 
 .btn svg:not(:first-child),
 .btn i:not(:first-child) {
@@ -12913,7 +12914,7 @@ textarea[resize="horizontal"] {
   font-size: .875rem;
   letter-spacing: .05px; }
   .navbar-brand img {
-    height: 30px; }
+    height: 80px; }
 
 .navbar-dark .navbar-brand {
   color: #fff; }
@@ -13002,7 +13003,6 @@ textarea[resize="horizontal"] {
     padding: 1rem; } }
 
 .navbar-transparent {
-  position: absolute;
   top: 0;
   width: 100%;
   z-index: 100;
@@ -13935,7 +13935,13 @@ textarea[resize="horizontal"] {
 p {
   font-size: 1rem;
   font-weight: 300;
-  line-height: 1.7; }
+  line-height: 1.7; 
+  color: #202020;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 
 .lead {
   font-size: 1.25rem;

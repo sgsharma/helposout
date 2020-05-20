@@ -1,18 +1,29 @@
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import React, { Component } from 'react';
-import {Route, Switch, BrowserRouter} from 'react-router-dom';
-import JobList from "./JobList";
-import NotFound from "./NotFound";
 
+import JobList from "./JobList";
+import Navbar from "./Navbar";
+import NotFound from "./NotFound";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import jobList from "../reducers";
+
+let store = createStore(jobList);
 class App extends Component {
   render() {
-  return (
-    <BrowserRouter>
-    <Switch>
-      <Route exact path="/" component={JobList} />
-      <Route component={NotFound} />
-    </Switch>
-    </BrowserRouter>
-  );
+    return (
+      <Provider store={store}>
+        <BrowserRouter>
+          <div>
+            <Navbar/>
+            <Switch>
+              <Route exact path="/" component={JobList} />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </Provider>
+    );
   }
 }
 

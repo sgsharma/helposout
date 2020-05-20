@@ -17,6 +17,7 @@
 
         .nav-link-inner--text {
             margin-left: .25rem;
+            color: #202020;
         }
     }
 }
@@ -29,7 +30,7 @@
     letter-spacing: .05px;
 
     img {
-        height: 30px;
+        height: 80px;
     }
 }
 
@@ -54,9 +55,9 @@
 }
 
 @include media-breakpoint-up(lg) {
-    // .navbar-main {
-    //     padding: 1rem 0;
-    // }
+    .navbar-main {
+        padding: 1rem 0;
+    }
 
     .navbar-nav {
         .nav-item {
