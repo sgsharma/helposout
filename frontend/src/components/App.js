@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import React, { Component } from 'react';
 
 import JobList from "./JobList";
+import Login from "./Login"
 import Navbar from "./Navbar";
 import NotFound from "./NotFound";
 import { Provider } from "react-redux";
@@ -18,6 +19,7 @@ class App extends Component {
             <Navbar/>
             <Switch>
               <Route exact path="/" component={JobList} />
+              <Route exact path="/login" component={Login} />
               <Route component={NotFound} />
             </Switch>
           </div>
