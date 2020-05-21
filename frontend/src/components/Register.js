@@ -33,6 +33,8 @@ import {
 
 */
 import React from "react";
+import github_logo from "../assets/img/icons/common/github.svg";
+import google_logo from "../assets/img/icons/common/google.svg";
 
 // core components
 class Register extends React.Component {
@@ -45,22 +47,12 @@ class Register extends React.Component {
         return (
             <>
                 <main ref="main">
-                    <section className="section section-shaped section-lg">
-                        <div className="shape shape-style-1 bg-gradient-default">
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                            <span />
-                        </div>
+                    <section className="section section-shaped section">
                         <Container className="pt-lg-7">
                             <Row className="justify-content-center">
                                 <Col lg="5">
                                     <Card className="bg-secondary shadow border-0">
-                                        <CardHeader className="bg-white pb-5">
+                                        <CardHeader className="bg-grey pb-5">
                                             <div className="text-muted text-center mb-3">
                                                 <small>Sign up with</small>
                                             </div>
@@ -74,7 +66,7 @@ class Register extends React.Component {
                                                     <span className="btn-inner--icon mr-1">
                                                         <img
                                                             alt="..."
-                                                            src={require("assets/img/icons/common/github.svg")}
+                                                            src={github_logo}
                                                         />
                                                     </span>
                                                     <span className="btn-inner--text">Github</span>
@@ -88,7 +80,7 @@ class Register extends React.Component {
                                                     <span className="btn-inner--icon mr-1">
                                                         <img
                                                             alt="..."
-                                                            src={require("assets/img/icons/common/google.svg")}
+                                                            src={google_logo}
                                                         />
                                                     </span>
                                                     <span className="btn-inner--text">Google</span>
@@ -169,9 +161,8 @@ class Register extends React.Component {
                                                 </Row>
                                                 <div className="text-center">
                                                     <Button
-                                                        className="mt-4"
-                                                        color="primary"
-                                                        type="button"
+                                                        className="btn-neutral btn-icon"
+                                                        color="default"
                                                     >
                                                         Create account
                           </Button>

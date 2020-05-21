@@ -45,7 +45,7 @@
   --danger: #f5365c;
   --light: #adb5bd;
   --dark: #212529;
-  /* --default: #fff; */
+
   --default: #fff;
   --white: #fff;
   --neutral: #fff;
@@ -73,15 +73,17 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
 
 body {
-  margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #fff;
-  /* color: #525f7f; */
   text-align: left;
   background-color: #fff; }
+
+#jobs {
+  padding-top: 2rem;
+}
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -155,7 +157,7 @@ sup {
   top: -.5em; }
 
 a {
-  color: #5e72e4;
+  color: #bd1c2b;
   text-decoration: none;
   background-color: transparent; }
   a:hover {
@@ -2873,8 +2875,10 @@ input[type="button"].btn-block {
       background-color: #e9ecef; }
 
 .custom-control-label {
+  color: #8898aa;
   position: relative;
   margin-bottom: 0;
+  padding-bottom: 5px;
   vertical-align: top; }
   .custom-control-label::before {
     position: absolute;
@@ -13011,9 +13015,10 @@ textarea[resize="horizontal"] {
   top: 0;
   width: 100%;
   z-index: 100;
-  background-color: transparent !important;
+  background-color: #fff !important;
   border: 0;
   box-shadow: none; }
+  
   .navbar-transparent .navbar-brand {
     color: white; }
   .navbar-transparent .navbar-toggler {
@@ -15334,10 +15339,12 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
       transition: none; } }
 
 .headroom--pinned {
-  transform: translateY(0%); }
+  display: block;
+}
 
 .headroom--unpinned {
-  transform: translateY(-100%); }
+  display: none;
+}
 
 .headroom--not-top {
   padding-top: .5rem;
