@@ -4,8 +4,7 @@ from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 from rest_framework import routers
 
-from .views import (JobViewSet, OrganizationViewSet
-                    )
+from .views import (JobViewSet, OrganizationViewSet)
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'jobs/?', JobViewSet, 'jobs')

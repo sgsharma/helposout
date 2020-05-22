@@ -111,7 +111,7 @@ class JobListSerializer(serializers.ModelSerializer):
 
     def get_owner_name(self, obj):
         if obj:
-            name = CustomUser.objects.filter(id=obj.get('owner_id')).values('first_name', 'last_name')
+            name = CustomUser.objects.filter(id=obj.owner_id).values('first_name', 'last_name')
             return name
         else:
             return

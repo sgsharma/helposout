@@ -1,12 +1,13 @@
-const initialState = [
-    { text: "Write code!" }
-];
+const initialState = [];
 
 
 export default function jobs(state = initialState, action) {
     let jobList = state.slice();
 
     switch (action.type) {
+
+        case 'FETCH_NOTES':
+            return [...state, ...action.jobs];
 
         case 'ADD_JOB':
             return [...state, { text: action.text }];
