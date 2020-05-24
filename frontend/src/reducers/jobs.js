@@ -5,8 +5,7 @@ export default function jobs(state = initialState, action) {
     let jobList = state.slice();
 
     switch (action.type) {
-
-        case 'FETCH_NOTES':
+        case 'FETCH_JOBS':
             return [...state, ...action.jobs];
 
         case 'ADD_JOB':

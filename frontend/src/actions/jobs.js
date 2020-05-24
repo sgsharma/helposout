@@ -1,14 +1,12 @@
 export const fetchJobs = () => {
-    return dispatch => {
+    return async dispatch => {
         let headers = { "Content-Type": "application/json" };
-        return fetch("/api/v1/jobs/", { headers, })
-            .then(res => res.json())
-            .then(jobs => {
-                return dispatch({
-                    type: 'FETCH_JOBS',
-                    jobs
-                })
-            })
+        const res = await fetch("/api/v1/jobs/", { headers, });
+        const jobs = await res.json();
+        return dispatch({
+            type: 'FETCH_JOBS',
+            jobs
+        });
     }
 }
 
