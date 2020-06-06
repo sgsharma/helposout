@@ -1,6 +1,9 @@
+import os
 from rest_framework import generics, permissions, viewsets
 from django.core import serializers
 from rest_framework.response import Response
+from django.shortcuts import render
+from django.conf import settings
 
 from .models import CustomUser, Job, Organization
 from .permissions import IsOwnerOrReadOnly

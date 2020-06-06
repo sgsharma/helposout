@@ -33,7 +33,8 @@ class JobList extends Component {
                 <Col sm={6}><Card key={u.id}>
                   <CardTitle>{u.title}</CardTitle>
                   <CardText>{u.description}</CardText>
-                  <p class="description">{u.salary}, {u.skills}</p>
+                  <p class="description">Salary: {u.salary}</p>
+                  <p class="description">Skills: {u.skills}</p>
                 </Card>
                 </Col>
               ))}

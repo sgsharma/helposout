@@ -16,7 +16,7 @@ import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FRONTEND_DIR = os.path.join(os.path.dirname(BASE_DIR), 'frontend')
+FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 env = environ.Env(
     # set casting, default value
@@ -42,6 +42,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
 # Application definition
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -50,7 +51,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    'whitenoise.runserver_nostatic',
+    'rest_auth.registration',
+    'frontend',
     'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,7 +74,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'api.urls'
+ROOT_URLCONF = 'urls'
 APPEND_SLASH = True
 
 TEMPLATES = [
