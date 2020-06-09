@@ -14,6 +14,7 @@ import {
     InputGroupText,
     Row
 } from "reactstrap";
+import { Link, Redirect } from "react-router-dom";
 
 // core components
 /*!
@@ -34,6 +35,8 @@ import {
 
 */
 import React from "react";
+import { auth } from "../actions";
+import { connect } from 'react-redux';
 import github_logo from "../assets/img/icons/common/github.svg";
 import google_logo from "../assets/img/icons/common/google.svg";
 
@@ -43,7 +46,21 @@ class Login extends React.Component {
         document.scrollingElement.scrollTop = 0;
         this.refs.main.scrollTop = 0;
     }
+
+    state = {
+        email: "",
+        password: "",
+    }
+
+    onSubmit = e => {
+        e.preventDefault();
+        this.props.login(this.state.email, this.state.password);
+    }
+
     render() {
+        if (this.props.isAuthenticated) {
+            return <Redirect to="/" />
+        }
         return (
             <main ref="main">
                 <section className="section section-shaped section">
@@ -90,7 +107,14 @@ class Login extends React.Component {
                                         <div className="text-center text-muted mb-4">
                                             <small>Or sign in with credentials</small>
                                         </div>
-                                        <Form role="form">
+                                        <Form role="form" onSubmit={this.onSubmit}>
+                                            {this.props.errors.length > 0 && (
+                                                <ul>
+                                                    {this.props.errors.map(error => (
+                                                        <li key={error.field}>{error.message}</li>
+                                                    ))}
+                                                </ul>
+                                            )}
                                             <FormGroup className="mb-3">
                                                 <InputGroup className="input-group-alternative">
                                                     <InputGroupAddon addonType="prepend">
@@ -98,7 +122,10 @@ class Login extends React.Component {
                                                             <i className="ni ni-email-83" />
                                                         </InputGroupText>
                                                     </InputGroupAddon>
-                                                    <Input placeholder="Email" type="email" />
+                                                    <Input placeholder="Email"
+                                                        id="email"
+                                                        type="email"
+                                                        onChange={e => this.setState({ email: e.target.value })} />
                                                 </InputGroup>
                                             </FormGroup>
                                             <FormGroup>
@@ -112,6 +139,8 @@ class Login extends React.Component {
                                                         placeholder="Password"
                                                         type="password"
                                                         autoComplete="off"
+                                                        id="password"
+                                                        onChange={e => this.setState({ password: e.target.value })}
                                                     />
                                                 </InputGroup>
                                             </FormGroup>
@@ -132,6 +161,7 @@ class Login extends React.Component {
                                                 <Button
                                                     className="btn-neutral btn-icon"
                                                     color="default"
+                                                    type="submit"
                                                 >
                                                     Sign in
                           </Button>
@@ -167,4 +197,25 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+const mapStateToProps = state => {
+    let errors = [];
+    if (state.auth.errors) {
+        errors = Object.keys(state.auth.errors).map(field => {
+            return { field, message: state.auth.errors[field] };
+        });
+    }
+    return {
+        errors,
+        isAuthenticated: state.auth.isAuthenticated
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: (email, password) => {
+            return dispatch(auth.login(email, password));
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

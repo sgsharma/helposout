@@ -1,15 +1,19 @@
 import os
-from rest_framework import generics, permissions, viewsets
-from django.core import serializers
-from rest_framework.response import Response
-from django.shortcuts import render
+
 from django.conf import settings
+from django.core import serializers
+from django.shortcuts import render
+from rest_framework import generics, permissions, viewsets
+from rest_framework.response import Response
 
 from .models import CustomUser, Job, Organization
 from .permissions import IsOwnerOrReadOnly
-from .serializers import (JobSerializer, JobListSerializer, OrganizationSerializer
-                          )
+from .serializers import (JobListSerializer, JobSerializer,
+                          OrganizationSerializer)
 
+from django.views.generic import TemplateView
+
+catchall = TemplateView.as_view(template_name='index.html')
 
 class JobViewSet(viewsets.ModelViewSet):
     serializer_class = JobListSerializer
