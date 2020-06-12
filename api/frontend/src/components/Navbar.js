@@ -44,6 +44,10 @@ import { connect } from 'react-redux';
 import logo from "../assets/img/brand/helpos-tmp-logo.png";
 
 class DemoNavbar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  
   componentDidMount() {
     let headroom = new Headroom(document.getElementById("navbar-main"));
     // initialise
@@ -67,75 +71,145 @@ class DemoNavbar extends React.Component {
   };
 
   render() {
-    return (
-      // <header className="header-global">
-      <Navbar
-        className="navbar-main navbar-transparent navbar-light headroom"
-        expand="lg"
-        id="navbar-main"
-      >
-        <Container>
-          <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
-            <img
-              alt="..."
-              src={logo}
-            />
-          </NavbarBrand>
-          <button className="navbar-toggler" id="navbar_global">
-            <span className="navbar-toggler-icon" />
-          </button>
-          <UncontrolledCollapse
-            toggler="#navbar_global"
-            navbar
-            className={this.state.collapseClasses}
-            onExiting={this.onExiting}
-            onExited={this.onExited}
-          >
-            <div className="navbar-collapse-header">
-              <Row>
-                <Col className="collapse-brand" xs="6">
-                  <Link to="/">
-                    <img
-                      alt="..."
-                      src={logo}
-                    />
-                  </Link>
-                </Col>
-                <Col className="collapse-close" xs="6">
-                  <button className="navbar-toggler" id="navbar_global">
-                    <span />
-                    <span />
-                  </button>
-                </Col>
-              </Row>
-            </div>
-            <Nav className="align-items-lg-center ml-lg-auto" navbar>
-              <Nav className="navbar-nav-hover align-items-lg-center" navbar>
-                <a
-                  href="/login"
-                  class="nav-link">
-                  <i className="ni ni-ui-04 d-lg-none mr-1" />
-                  <span className="nav-link-inner--text">{this.props.user.username}</span>
-                </a>
+    if (!this.props.user) {
+      return (
+        // <header className="header-global">
+        <Navbar
+          className="navbar-main navbar-transparent navbar-light headroom"
+          expand="lg"
+          id="navbar-main"
+        >
+          <Container>
+            <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
+              <img
+                alt="..."
+                src={logo}
+              />
+            </NavbarBrand>
+            <button className="navbar-toggler" id="navbar_global">
+              <span className="navbar-toggler-icon" />
+            </button>
+            <UncontrolledCollapse
+              toggler="#navbar_global"
+              navbar
+              className={this.state.collapseClasses}
+              onExiting={this.onExiting}
+              onExited={this.onExited}
+            >
+              <div className="navbar-collapse-header">
+                <Row>
+                  <Col className="collapse-brand" xs="6">
+                    <Link to="/">
+                      <img
+                        alt="..."
+                        src={logo}
+                      />
+                    </Link>
+                  </Col>
+                  <Col className="collapse-close" xs="6">
+                    <button className="navbar-toggler" id="navbar_global">
+                      <span />
+                      <span />
+                    </button>
+                  </Col>
+                </Row>
+              </div>
+              <Nav className="align-items-lg-center ml-lg-auto" navbar>
+                <Nav className="navbar-nav-hover align-items-lg-center" navbar>
+                  <a
+                    href="/login"
+                    class="nav-link">
+                    <i className="ni ni-ui-04 d-lg-none mr-1" />
+                    <span className="nav-link-inner--text">Log In</span>
+                  </a>
+                </Nav>
+                <NavItem className="d-none d-lg-block ml-lg-4">
+                  <HashLink to="/#jobs">
+                    <Button
+                      className="btn-neutral btn-icon"
+                      color="default"
+                    >
+                      <span className="nav-link-inner--text ml-1">
+                        Browse Jobs
+                        </span>
+                    </Button>
+                  </HashLink>
+                </NavItem>
               </Nav>
-              <NavItem className="d-none d-lg-block ml-lg-4">
-                <HashLink to="/#jobs">
-                  <Button
-                    className="btn-neutral btn-icon"
-                    color="default"
-                  >
-                    <span className="nav-link-inner--text ml-1">
-                      Browse Jobs
+            </UncontrolledCollapse>
+          </Container>
+        </Navbar>
+        // </header>
+      );
+    } else {
+      return (
+        <Navbar
+          className="navbar-main navbar-transparent navbar-light headroom"
+          expand="lg"
+          id="navbar-main"
+        >
+          <Container>
+            <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
+              <img
+                alt="..."
+                src={logo}
+              />
+            </NavbarBrand>
+            <button className="navbar-toggler" id="navbar_global">
+              <span className="navbar-toggler-icon" />
+            </button>
+            <UncontrolledCollapse
+              toggler="#navbar_global"
+              navbar
+              className={this.state.collapseClasses}
+              onExiting={this.onExiting}
+              onExited={this.onExited}
+            >
+              <div className="navbar-collapse-header">
+                <Row>
+                  <Col className="collapse-brand" xs="6">
+                    <Link to="/">
+                      <img
+                        alt="..."
+                        src={logo}
+                      />
+                    </Link>
+                  </Col>
+                  <Col className="collapse-close" xs="6">
+                    <button className="navbar-toggler" id="navbar_global">
+                      <span />
+                      <span />
+                    </button>
+                  </Col>
+                </Row>
+              </div>
+              <Nav className="align-items-lg-center ml-lg-auto" navbar>
+                <Nav className="navbar-nav-hover align-items-lg-center" navbar>
+                  <a
+                    href="/login"
+                    class="nav-link">
+                    <i className="ni ni-ui-04 d-lg-none mr-1" />
+                    <span className="nav-link-inner--text">Log Out</span>
+                  </a>
+                </Nav>
+                <NavItem className="d-none d-lg-block ml-lg-4">
+                  <HashLink to="/#jobs">
+                    <Button
+                      className="btn-neutral btn-icon"
+                      color="default"
+                    >
+                      <span className="nav-link-inner--text ml-1">
+                        Browse Jobs
                       </span>
-                  </Button>
-                </HashLink>
-              </NavItem>
-            </Nav>
-          </UncontrolledCollapse>
-        </Container>
-      </Navbar>
-      // </header>
-    );
+                    </Button>
+                  </HashLink>
+                </NavItem>
+              </Nav>
+            </UncontrolledCollapse>
+          </Container>
+        </Navbar>
+      );
+    }
   }
 }
 
@@ -144,7 +218,6 @@ function mapStateToProps(state) {
     user: state.auth.user
   }
 }
-
 
 export default connect(mapStateToProps)(DemoNavbar)
 

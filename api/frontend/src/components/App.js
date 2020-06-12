@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider, connect } from "react-redux";
 import React, { Component } from 'react';
 import { applyMiddleware, createStore } from "redux";
 
@@ -7,7 +8,6 @@ import JobList from "./JobList";
 import Login from "./Login"
 import Navbar from "./Navbar";
 import NotFound from "./NotFound";
-import { Provider } from "react-redux";
 import Register from "./Register"
 import jobList from "../reducers";
 import thunk from "redux-thunk";
