@@ -15,6 +15,7 @@ export const loadUser = () => {
             .then(res => {
                 if (res.status < 500) {
                     return res.json().then(data => {
+                        alert(data)
                         return {status: res.status, data};
                     })
                 } else {

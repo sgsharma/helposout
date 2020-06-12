@@ -1,19 +1,54 @@
 import os
 
+from allauth.account import app_settings as allauth_settings
+from allauth.account.utils import complete_signup
 from django.conf import settings
 from django.core import serializers
 from django.shortcuts import render
+from django.views.generic import TemplateView
+from knox.models import AuthToken
+from rest_auth.registration.views import RegisterView
+from rest_auth.views import LoginView
 from rest_framework import generics, permissions, viewsets
 from rest_framework.response import Response
 
 from .models import CustomUser, Job, Organization
 from .permissions import IsOwnerOrReadOnly
-from .serializers import (JobListSerializer, JobSerializer,
+from .serializers import (CustomRegisterSerializer, CustomUserSerializer,
+                          JobListSerializer, JobSerializer, KnoxSerializer,
                           OrganizationSerializer)
-
-from django.views.generic import TemplateView
+from .utils import create_knox_token
 
 catchall = TemplateView.as_view(template_name='index.html')
+
+
+class KnoxLoginView(LoginView):
+
+    def get_response(self):
+        serializer_class = self.get_response_serializer()
+
+        data = {
+            'user': self.user,
+            'token': self.token
+        }
+        serializer = serializer_class(instance=data, context={'request': self.request})
+
+        return Response(serializer.data, status=200)
+
+
+class KnoxRegisterView(RegisterView):
+    serializer_class = CustomRegisterSerializer
+
+    def get_response_data(self, user):
+        return KnoxSerializer({'user': user, 'token': self.token}).data
+
+    def perform_create(self, serializer):
+        print(self.request.json())
+        user = serializer.save(self.request)
+        self.token = create_knox_token(None, user, None)
+        complete_signup(self.request._request, user, allauth_settings.EMAIL_VERIFICATION, None)
+        return user
+
 
 class JobViewSet(viewsets.ModelViewSet):
     serializer_class = JobListSerializer

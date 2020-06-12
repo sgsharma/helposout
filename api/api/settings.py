@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'api',
     'rest_framework',
+    'knox',
     'rest_framework.authtoken',
     'rest_auth',
     'rest_auth.registration',
@@ -132,9 +133,9 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'api.CustomUser'
 
 AUTHENTICATION_BACKENDS = (
- 'django.contrib.auth.backends.ModelBackend',
- 'allauth.account.auth_backends.AuthenticationBackend',
- )
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 # django-allauth and django-rest-auth settings
 
@@ -174,11 +175,34 @@ STATIC_URL = '/static/'
 WHITENOISE_ROOT = os.path.join(FRONTEND_DIR, 'build')
 
 # DRF Settings
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
 
+REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
+REST_AUTH_TOKEN_CREATOR = 'api.utils.create_knox_token'
+
 REST_AUTH_SERIALIZERS = {
+    # 'USER_DETAILS_SERIALIZER': 'api.serializers.UserDetailsSerializer',
     'USER_DETAILS_SERIALIZER': 'api.serializers.CustomUserSerializer',
-    'LOGIN_SERIALIZER': 'api.serializers.LoginSerializer',
+    'TOKEN_SERIALIZER': 'api.serializers.KnoxSerializer',
 }
+
+REST_KNOX = {
+    'USER_SERIALIZER': 'api.serializers.CustomUserSerializer',
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_ADAPTER = 'api.adapter.CustomAccountAdapter'
