@@ -33,8 +33,8 @@ import {
 
 */
 import React from "react";
-import github_logo from "../assets/img/icons/common/github.svg";
-import google_logo from "../assets/img/icons/common/google.svg";
+import github_logo from "../../assets/img/icons/common/github.svg";
+import google_logo from "../../assets/img/icons/common/google.svg";
 
 // core components
 class Register extends React.Component {

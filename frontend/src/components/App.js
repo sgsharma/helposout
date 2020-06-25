@@ -1,32 +1,27 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Provider, connect } from "react-redux";
 import React, { Component } from 'react';
-import { applyMiddleware, createStore } from "redux";
+import { Route, Router, Switch } from 'react-router-dom';
 
-import JobForm from "./JobForm";
-import JobList from "./JobList";
-import { LOGIN_SUCCESSFUL } from '../actions/auth';
-import Login from "./Login"
-import Navbar from "./Navbar";
-import NotFound from "./NotFound";
-import Register from "./Register"
-import RequireAuth from './require_auth';
-import jobList from "../reducers";
-import thunk from "redux-thunk";
-
-let store = createStore(jobList, applyMiddleware(thunk));
-
-// Check for token and update application state if required
-const token = localStorage.getItem('token');
-if (token) {
-    store.dispatch({ type: 'LOGIN_SUCCESSFUL' });
-}
+import JobForm from "./jobs/JobForm";
+import JobList from "./jobs/JobList";
+import Login from "./auth/Login"
+import Navbar from "./common/Navbar";
+import NotFound from "./common/NotFound";
+import PrivateRoute from './common/PrivateRoute';
+import { Provider } from 'react-redux';
+import ReactDOM from 'react-dom';
+import Register from "./auth/Register"
+import history from '../history';
+import { loadUser } from '../actions/auth';
+import store from '../store';
 
 class App extends Component {
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
   render() {
     return (
       <Provider store={store}>
-        <BrowserRouter>
+        <Router history={history}>
           <div>
             <header>
               <Navbar />
@@ -35,11 +30,11 @@ class App extends Component {
               <Route exact path="/" component={JobList} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
-              <Route exact path="/dashboard" component={RequireAuth(JobForm)} />
+              <PrivateRoute exact path="/dashboard" component={JobForm} />
               {/* <Route component={NotFound} /> */}
             </Switch>
           </div>
-        </BrowserRouter>
+        </Router>
       </Provider>
     );
   }

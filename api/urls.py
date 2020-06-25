@@ -18,5 +18,5 @@ urlpatterns = [
     re_path(r'^api/auth/?', include('rest_auth.urls')),
     # url(r'^api/auth/registration/?', include('rest_auth.registration.urls'))
     url(r'^accounts/', include('allauth.urls')),
-    re_path(r'', catchall)
+    # re_path(r'', catchall)
 ]

@@ -17,7 +17,7 @@ import {
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { jobs } from "../actions";
+import { jobs } from "../../actions";
 
 class JobList extends Component {
   componentDidMount() {
