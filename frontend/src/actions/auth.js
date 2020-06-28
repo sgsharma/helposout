@@ -65,7 +65,8 @@ export const login = ({ email, password }) => async dispatch => {
     };
 
     // Request Body
-    const body = JSON.stringify({ email, password });
+    var data = { email: email, password: password };
+    const body = JSON.stringify(data);
 
     try {
         const res = await axios.post('/api/auth/login/', body, config);
@@ -75,9 +76,9 @@ export const login = ({ email, password }) => async dispatch => {
         });
     } catch (err) {
         dispatch({
-            type: LOGIN_FAIL
+            type: LOGIN_FAIL,
+            data: err.response.data
         });
-        dispatch(stopSubmit('loginForm', err.response.data));
     }
 };
 

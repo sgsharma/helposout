@@ -13,7 +13,8 @@ const initialState = {
     isLoading: false,
     isAuthenticated: null,
     user: null,
-    token: localStorage.getItem('token')
+    token: localStorage.getItem('token'),
+    errors: {}
 };
 
 export default function (state = initialState, action) {
@@ -37,7 +38,8 @@ export default function (state = initialState, action) {
                 ...state,
                 isLoading: false,
                 isAuthenticated: true,
-                ...action.payload
+                ...action.payload,
+                errors: null
             };
         case AUTH_ERROR:
         case REGISTER_FAIL:
@@ -49,7 +51,8 @@ export default function (state = initialState, action) {
                 isLoading: false,
                 isAuthenticated: false,
                 user: null,
-                token: null
+                token: null,
+                errors: action.data
             };
         default:
             return state;

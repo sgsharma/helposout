@@ -19,7 +19,7 @@ from .serializers import (CustomRegisterSerializer, CustomUserSerializer,
                           OrganizationSerializer)
 from .utils import create_knox_token
 
-catchall = TemplateView.as_view(template_name='index.html')
+# catchall = TemplateView.as_view(template_name='index.html')
 
 
 class KnoxLoginView(LoginView):

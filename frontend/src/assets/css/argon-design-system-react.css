@@ -3936,7 +3936,10 @@ input[type="button"].btn-block {
 
 .alert {
   position: relative;
-  padding: 1rem 1.5rem;
+  padding-right: 0.25rem;
+  padding-right: 0.25rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   margin-bottom: 1rem;
   border: 0.0625rem solid transparent;
   border-radius: 0.25rem; }
@@ -4003,7 +4006,7 @@ input[type="button"].btn-block {
 
 .alert-danger {
   color: #f5365c;
-  background-color: #f75676;
+  background-color: #ff000087;
   border-color: #f75676; }
   .alert-danger hr {
     border-top-color: #f63e62; }
