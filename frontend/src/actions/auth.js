@@ -10,6 +10,7 @@ import {
 } from './types';
 
 import axios from 'axios';
+import { fetchOrgs } from './orgs'
 import { stopSubmit } from 'redux-form';
 
 // LOAD USER
@@ -30,7 +31,7 @@ export const loadUser = () => async (dispatch, getState) => {
 };
 
 // REGISTER USER
-export const register = ({ username, email, password }) => async dispatch => {
+export const register = ({ email, password1, password2, organization }) => async dispatch => {
     // Headers
     const config = {
         headers: {
@@ -39,7 +40,7 @@ export const register = ({ username, email, password }) => async dispatch => {
     };
 
     // Request Body
-    const body = JSON.stringify({ username, email, password });
+    const body = JSON.stringify({ email, password1, password2, organization });
 
     try {
         const res = await axios.post('/api/auth/register/', body, config);
@@ -51,7 +52,7 @@ export const register = ({ username, email, password }) => async dispatch => {
         dispatch({
             type: REGISTER_FAIL
         });
-        dispatch(stopSubmit('registerForm', err.response.data));
+        dispatch(stopSubmit('', err.response.data));
     }
 };
 
@@ -84,7 +85,7 @@ export const login = ({ email, password }) => async dispatch => {
 
 // LOGOUT USER
 export const logout = () => async (dispatch, getState) => {
-    await axios.post('/api/auth/logout', null, tokenConfig(getState));
+    await axios.post('/api/auth/logout/', null, tokenConfig(getState));
     dispatch({
         type: LOGOUT_SUCCESS
     });

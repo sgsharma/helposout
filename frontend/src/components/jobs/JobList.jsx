@@ -46,7 +46,6 @@ class JobList extends Component {
   }
 }
 
-
 const mapStateToProps = state => {
   return {
     jobs: state.jobs
@@ -60,6 +59,5 @@ const mapDispatchToProps = dispatch => {
     }
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(JobList);

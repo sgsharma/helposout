@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 
 from . import models
 
+
 class CustomUserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
@@ -16,6 +17,10 @@ class CustomUserManager(BaseUserManager):
         """
         if not email:
             raise ValueError(_('The Email must be set'))
+        if 'first_name' not in kwargs:
+            raise ValueError(_('Please provide a first name'))
+        if 'last_name' not in kwargs:
+            raise ValueError(_('Please provide a last name'))
         email = self.normalize_email(email)
         user = self.model(email=email, **kwargs)
         kwargs.setdefault('is_partner', False)
@@ -33,7 +38,7 @@ class CustomUserManager(BaseUserManager):
                 org_url="http://helposout.com/"
             )
             try:
-                org = models.Organization.objects.get(name='default')
+                org = models.Organization.objects.get(name='default') 
             except:
                 try:
                     organization.full_clean()

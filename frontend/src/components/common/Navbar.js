@@ -19,7 +19,7 @@
 // reactstrap components
 // JavaScript plugin that hides or shows a component based on your scroll
 
-import { Button, Col, Container, Nav, NavItem, Navbar, NavbarBrand, Row, UncontrolledCollapse } from "reactstrap";
+import { Button, Col, Container, DropdownMenu, DropdownToggle, Nav, NavItem, Navbar, NavbarBrand, Row, UncontrolledCollapse, UncontrolledDropdown } from "reactstrap";
 
 import { HashLink } from 'react-router-hash-link';
 import Headroom from "headroom.js";
@@ -27,6 +27,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { connect } from 'react-redux';
 import logo from "../../assets/img/brand/helpos-tmp-logo.png";
+import { logout } from '../../actions/auth';
 
 class DemoNavbar extends React.Component {
   constructor(props) {
@@ -57,8 +58,39 @@ class DemoNavbar extends React.Component {
 
   render() {
     const { user, isAuthenticated } = this.props.auth;
+
+    const userLinks = (
+      <Nav className="navbar-nav-hover align-items-lg-center" navbar>
+        <UncontrolledDropdown nav>
+          <DropdownToggle nav>
+            <i className="ni ni-ui-04 d-lg-none mr-1" />
+            <span className="nav-link-inner--text">{user ? user.email : ''}</span>
+          </DropdownToggle>
+          <DropdownMenu className="dropdown-menu-l">
+            <div className="dropdown-menu-inner">
+              <a onClick={this.props.logout}
+                class="nav-link">
+                <i className="ni ni-ui-04 d-lg-none mr-1" />
+                <span className="nav-link-inner--text">Log Out</span>
+              </a>
+            </div>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </Nav>
+    );
+
+    const guestLinks = (
+      <Nav className="navbar-nav-hover align-items-lg-center" navbar>
+        <a
+          href="/login"
+          class="nav-link">
+          <i className="ni ni-ui-04 d-lg-none mr-1" />
+          <span className="nav-link-inner--text">Log In</span>
+        </a>
+      </Nav>
+    );
+
     return (
-      // <header className="header-global">
       <Navbar
         className="navbar-main navbar-transparent navbar-light headroom"
         expand="lg"
@@ -100,14 +132,7 @@ class DemoNavbar extends React.Component {
               </Row>
             </div>
             <Nav className="align-items-lg-center ml-lg-auto" navbar>
-              <Nav className="navbar-nav-hover align-items-lg-center" navbar>
-                <a
-                  href="/login"
-                  class="nav-link">
-                  <i className="ni ni-ui-04 d-lg-none mr-1" />
-                  <span className="nav-link-inner--text">Log In</span>
-                </a>
-              </Nav>
+              {isAuthenticated ? userLinks : guestLinks}
               <NavItem className="d-none d-lg-block ml-lg-4">
                 <HashLink to="/#jobs">
                   <Button
@@ -133,5 +158,7 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(DemoNavbar)
-// export default DemoNavbar;
+export default connect(
+  mapStateToProps,
+  { logout }
+)(DemoNavbar);

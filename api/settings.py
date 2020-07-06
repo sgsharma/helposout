@@ -14,47 +14,34 @@ import os
 import environ
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 env = environ.Env(
-    # set casting, default value
+
     DEBUG=(bool, False)
 )
 
 ENV_PATH = os.path.join(BASE_DIR, '.env')
 env.read_env(ENV_PATH)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 SITE_ID=1
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY' )
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 
 
-# Application definition
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'api',
+    'accounts.apps.AccountsConfig',
     'frontend.apps.FrontendConfig',
     'rest_framework',
     'knox',
-    'rest_framework.authtoken',
-    'rest_auth',
-    'rest_auth.registration',
-    # 'frontend',
+    'api',
+    'whitenoise.runserver_nostatic',
     'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -66,10 +53,10 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.common.CommonMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -98,8 +85,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -113,8 +98,6 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -131,25 +114,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'api.CustomUser'
+AUTH_USER_MODEL = 'accounts.User'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+
 )
 
-# django-allauth and django-rest-auth settings
 
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-LOGIN_REDIRECT_URL = ''
-
-# Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -162,8 +134,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
 STATICFILES_DIRS = [os.path.join(FRONTEND_DIR, 'build', 'static')]
 
 STATICFILES_STORAGE = (
@@ -175,35 +145,68 @@ STATIC_URL = '/static/'
 
 WHITENOISE_ROOT = os.path.join(FRONTEND_DIR, 'build')
 
-# DRF Settings
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+
+
+
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
 
-REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
-REST_AUTH_TOKEN_CREATOR = 'api.utils.create_knox_token'
 
-REST_AUTH_SERIALIZERS = {
-    # 'USER_DETAILS_SERIALIZER': 'api.serializers.UserDetailsSerializer',
-    'USER_DETAILS_SERIALIZER': 'api.serializers.CustomUserSerializer',
-    'TOKEN_SERIALIZER': 'api.serializers.KnoxSerializer',
-}
+
+
+
 
 REST_KNOX = {
-    'USER_SERIALIZER': 'api.serializers.CustomUserSerializer',
+    'USER_SERIALIZER': 'accounts.api.serializers.UserSerializer',
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-ACCOUNT_ADAPTER = 'api.adapter.CustomAccountAdapter'
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# set casting, default value
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
+# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: don't run with debug turned on in production!
+# Application definition
+# Database
+# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+# Password validation
+# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
+# 'allauth.account.auth_backends.AuthenticationBackend',
+# django-allauth and django-rest-auth settings
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# LOGIN_REDIRECT_URL = ''
+# Internationalization
+# https://docs.djangoproject.com/en/2.0/topics/i18n/
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.0/howto/static-files/
+# DRF Settings
+# AUTHENTICATION_BACKENDS = (
+# 'django.contrib.auth.backends.ModelBackend',
+# 'allauth.account.auth_backends.AuthenticationBackend',
+# )
+# 'DEFAULT_PERMISSION_CLASSES': (
+#     'rest_framework.permissions.IsAuthenticated',
+# ),
+# REST_AUTH_TOKEN_MODEL = 'knox.models.AuthToken'
+# REST_AUTH_TOKEN_CREATOR = 'api.utils.create_knox_token'
+# REST_AUTH_SERIALIZERS = {
+# 'USER_DETAILS_SERIALIZER': 'api.serializers.UserDetailsSerializer',
+# 'USER_DETAILS_SERIALIZER': 'api.serializers.CustomUserSerializer',
+# 'TOKEN_SERIALIZER': 'api.serializers.KnoxSerializer',
+# }
+# ACCOUNT_ADAPTER = 'api.adapter.CustomAccountAdapter'

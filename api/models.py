@@ -4,31 +4,9 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
-from .manager import CustomUserManager
-
-
-class Organization(models.Model):
-    name = models.CharField(max_length=50, primary_key=True, null=False, blank=False)
-    org_url = models.URLField('Company URL', max_length=200, blank=False, null=False, unique=True)
-    # location1 = AddressField() # TODO @sgsharma install this first to make it work https://github.com/furious-luke/django-address
-    # location2 = AddressField(related_name='+', blank=True, null=True)
-
-
-class CustomUser(AbstractUser):
-    username = None
-    email = models.EmailField(_('email address'), unique=True)
-    is_partner = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=False, blank=True)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
-
-    objects = CustomUserManager()
-
-    def __str__(self):
-        return self.email
+from accounts.models import Organization
 
 
 class Job(models.Model):
@@ -43,7 +21,7 @@ class Job(models.Model):
     salary = models.DecimalField(decimal_places=2, max_digits=8)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    owner = models.ForeignKey(CustomUser, related_name='jobs', on_delete=models.CASCADE, null=False, blank=False)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='jobs', on_delete=models.CASCADE, null=False, blank=False)
     org = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
 

@@ -3,11 +3,13 @@ import auth from './auth';
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import jobs from './jobs';
+import orgs from './orgs';
 
 const appReducer = combineReducers({
     form: formReducer,
     auth,
-    jobs
+    jobs,
+    orgs
 });
 
 const rootReducer = (state, action) => {
@@ -18,13 +20,3 @@ const rootReducer = (state, action) => {
 };
 
 export default rootReducer;
-
-// import auth from "./auth";
-// import { combineReducers } from 'redux';
-// import jobs from "./jobs";
-
-// const jobList = combineReducers({
-//     jobs, auth
-// })
-
-// export default jobList;
