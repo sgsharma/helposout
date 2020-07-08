@@ -41,7 +41,6 @@ class JobViewSet(viewsets.ModelViewSet):
         """Instantiate the list of serializers per action from class attribute (must be defined)."""
         kwargs['partial'] = True
         try:
-            print(self.serializer_action_classes[self.action])
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
             return super(JobViewSet, self).get_serializer_class()

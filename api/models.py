@@ -35,7 +35,6 @@ class Job(models.Model):
 
 # @receiver(post_save, sender=CustomUser)
 # def add_org(sender, instance, created, raw=True, *args, **kwargs):
-#     print("Hello")
 #     org = Organization(name=instance.organization, org_url=instance.org_url)
 #     org.save()
 

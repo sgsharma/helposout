@@ -11,7 +11,6 @@ from accounts.models import User, Organization
 
 
 class JobSerializer(serializers.ModelSerializer):
-    print("JobSerializer")
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     org = serializers.HiddenField(default=None)
 

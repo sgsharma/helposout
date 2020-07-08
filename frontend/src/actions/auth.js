@@ -10,8 +10,6 @@ import {
 } from './types';
 
 import axios from 'axios';
-import { fetchOrgs } from './orgs'
-import { stopSubmit } from 'redux-form';
 
 // LOAD USER
 export const loadUser = () => async (dispatch, getState) => {
@@ -31,7 +29,7 @@ export const loadUser = () => async (dispatch, getState) => {
 };
 
 // REGISTER USER
-export const register = ({ email, password1, password2, organization }) => async dispatch => {
+export const register = ({ first_name, last_name, email, password, password2, organization }) => async dispatch => {
     // Headers
     const config = {
         headers: {
@@ -40,7 +38,7 @@ export const register = ({ email, password1, password2, organization }) => async
     };
 
     // Request Body
-    const body = JSON.stringify({ email, password1, password2, organization });
+    const body = JSON.stringify({ first_name, last_name, email, password, password2, organization });
 
     try {
         const res = await axios.post('/api/auth/register/', body, config);
@@ -50,9 +48,9 @@ export const register = ({ email, password1, password2, organization }) => async
         });
     } catch (err) {
         dispatch({
-            type: REGISTER_FAIL
+            type: REGISTER_FAIL,
+            data: err.response.data
         });
-        dispatch(stopSubmit('', err.response.data));
     }
 };
 
