@@ -20,7 +20,7 @@ org_highlight = OrganizationViewSet.as_view({
 
 urlpatterns = [
     # path('', include('knox.urls')),
-    path('user', UserAPIView.as_view()),
+    re_path(r'user/?', UserAPIView.as_view()),
     re_path(r'register/?', RegisterAPIView.as_view()),
     re_path(r'login/?', LoginAPIView.as_view()),
     re_path(r'logout/?', LogoutView.as_view(), name='knox_logout'),
