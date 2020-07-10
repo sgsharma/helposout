@@ -44,7 +44,7 @@ class JobListSerializer(serializers.ModelSerializer):
         return value
 
     def get_owner_name(self, obj):
-        name = accounts.User.objects.filter(id=obj.owner_id).values('first_name', 'last_name')
+        name = User.objects.filter(id=obj.owner_id).values('first_name', 'last_name')
         return name
 
     def get_org_name(self, obj):

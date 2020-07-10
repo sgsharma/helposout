@@ -68,6 +68,11 @@ class DemoNavbar extends React.Component {
           </DropdownToggle>
           <DropdownMenu className="dropdown-menu-l">
             <div className="dropdown-menu-inner">
+              <a href="/dashboard"
+                class="nav-link">
+                <i className="ni ni-ui-04 d-lg-none mr-1" />
+                <span className="nav-link-inner--text">Dashboard</span>
+              </a>
               <a onClick={this.props.logout}
                 class="nav-link">
                 <i className="ni ni-ui-04 d-lg-none mr-1" />
